@@ -3,7 +3,7 @@ from p010 import getPrimesSet
 def countPrimes(conjunto,primos):
 	count = 0
 	for num in conjunto:
-		if conjunto in primos:
+		if num in primos:
 			count += 1
 	return count
 
@@ -30,23 +30,47 @@ def indexCombinations(length,ndigits):
 		ciclos.append(i)
 	return combinationsRec(length,ndigits,ciclos,0)
 
-def replacementsN(num,ndigits):
-	cind = indexCombinations(len(num),ndigits)
-	for d in range(0,10):
+def replacementsN(num,ndigits,matriz):	
+	#cind = indexCombinations(len(num),ndigits)
+	cind = matriz[(len(num),ndigits)]
+	for indices in cind:
 		conjunto = set()
-		for indices in cind:
+		for d in range(0,10):
+			aux = list(''.join(num))
+			ok = True
 			for indice in indices:
-				aux = list(''.join(num))
-				aux[indice] = str(d)
-			conjunto.add(int(''.join(aux)))
+				if d == 0 and indice == 0:
+					ok = False
+				else:
+					aux[indice] = str(d)
+			if ok:
+				conjunto.add(int(''.join(aux)))
 		yield conjunto
 
-def replacements(num):
+def replacements(num,matriz):
 	num = list(str(num))
 	for ndigits in range(1,len(num)):
-		for conjunto in replacementsN(num,ndigits):
+		for conjunto in replacementsN(num,ndigits,matriz):
 			yield conjunto
 
+def main():
+	primos = getPrimesSet(1000000)
+
+	matriz = dict()
+	for length in range(0,7):
+		for ndigits in range(1,length):
+			matriz[(length,ndigits)] = indexCombinations(length,ndigits)
+
+	for i in range(0,1000000):
+		for conjunto in replacements(i,matriz):
+			count = countPrimes(conjunto,primos)
+			if count == 8:
+				print(conjunto)
+				print(sorted(conjunto)[0])
+				return 
+
+		if i%100 == 0:
+			print(str(i) + "...")
+
 if __name__ == '__main__':
-	for r in replacements(10):
-		print(r)
+	main()
