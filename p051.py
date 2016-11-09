@@ -1,4 +1,4 @@
-from p010 import getPrimesSet
+from p010 import getPrimesSet, getPrimes
 
 def countPrimes(conjunto,primos):
 	count = 0
@@ -61,7 +61,8 @@ def main():
 		for ndigits in range(1,length):
 			matriz[(length,ndigits)] = indexCombinations(length,ndigits)
 
-	for i in range(0,1000000):
+	#for i in range(0,1000000):
+	for i in sorted(primos):
 		for conjunto in replacements(i,matriz):
 			count = countPrimes(conjunto,primos)
 			if count == 8:
@@ -69,8 +70,7 @@ def main():
 				print(sorted(conjunto)[0])
 				return 
 
-		if i%100 == 0:
-			print(str(i) + "...")
+		print(i)
 
 if __name__ == '__main__':
 	main()

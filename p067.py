@@ -111,7 +111,7 @@ def maxSoma(i,j,tri,tri_max):
 			tri_max[(i,j)] = tri[i][j] + max( (tri_max[(i+1,j)],tri_max[(i+1,j+1)] ) )
 
 def initTriMax(tri):
-	tri_max = {}
+	tri_max = dict()
 	for i in range(0,len(tri)):
 		for j in range(0,len(tri[i])):
 			tri_max[(i,j)] = 0
