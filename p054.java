@@ -239,9 +239,9 @@ public class p054 {
           }
           else if(carta.getValor() != par1.getValor())
             if( (r1=carta.getValorNorm()) > (r2=par1.getValorNorm()))
-              return r1;
+              return r1+0.0001f*r2;
           else
-            return r2;
+            return r2+0.0001f*r1;
         }
       }
       return 0;
